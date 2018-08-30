@@ -26,23 +26,22 @@ jobs:
       # Download and cache composer dependencies
       - restore_cache:
           keys:
-          - composer-cache-{{ checksum "composer.lock" }}
+          - composer-v1-cache-{{ checksum "composer.lock" }}
       - run: composer install -n --prefer-dist
       - save_cache:
-          key: composer-cache-{{ checksum "composer.lock" }}
+          key: composer-v1-cache-{{ checksum "composer.lock" }}
           paths:
             - vendor
 
       # Download and cache node dependencies
       - restore_cache:
           keys:
-            - npm-cache-{{ checksum "package-lock.json" }}
-      - run: npm install
+            - node-v1-cache-{{ checksum "package-lock.json" }}
+      - run: npm install --no-save
       - save_cache:
-          key: npm-cache-{{ checksum "package-lock.json" }}
+          key: node-v1-cache-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
-
       # Build site
       - run:
           name: Build
